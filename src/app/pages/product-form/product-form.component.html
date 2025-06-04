@@ -1,0 +1,70 @@
+<div class="form-wrapper">
+  <h2>Formulario de Registro</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <!-- Primera fila: ID y Nombre -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="id">ID</label>
+        <input id="id" formControlName="id" type="text" />
+        <div class="error" *ngIf="form.get('id')?.touched && form.get('id')?.invalid">
+          ID no válido!
+        </div>
+        <div class="error" *ngIf="form.get('id')?.touched && form.get('id')?.errors?.['idTaken']">
+             Este ID ya existe
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input id="name" formControlName="name" type="text" />
+      </div>
+    </div>
+
+    <!-- Segunda fila: Descripción y Logo -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <input id="description" formControlName="description" type="text" />
+        <div class="error" *ngIf="form.get('description')?.touched && form.get('description')?.invalid">
+          Este campo es requerido!
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="logo">Logo</label>
+        <input id="logo" formControlName="logo" type="text" />
+        <div class="error" *ngIf="form.get('logo')?.touched && form.get('logo')?.invalid">
+          Este campo es requerido!
+        </div>
+      </div>
+    </div>
+
+    <!-- Tercera fila: Fecha de liberación y Fecha de revisión -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date_release">Fecha Liberación</label>
+        <input id="date_release" formControlName="date_release" type="date" />
+        <div class="error" *ngIf="form.get('date_release')?.touched && form.get('date_release')?.errors?.['invalidReleaseDate']">
+            La fecha debe ser igual o posterior a hoy
+            </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date_revision">Fecha Revisión</label>
+        <input id="date_revision" formControlName="date_revision" type="date" />
+        <div class="error" *ngIf="form.hasError('invalidRevisionDate') && form.get('date_revision')?.touched">
+        Debe ser exactamente un año después de la fecha de liberación
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+        <button type="button" (click)="getBack()">Volver</button>
+        <button type="button" (click)="reset()">Reiniciar</button>
+        <button type="submit" [disabled]="form.invalid">Enviar</button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="header">
+    <img src="assets/logo-bank.svg" alt="logo" class="logo">
+    <h2>BANCO</h2>
+  </div>
+
+  <input [(ngModel)]="searchText" (keyup.enter)="search()" placeholder="Search..." class="search-box" />
+  <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
+
+  <table class="product-table" *ngIf="products.length">
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del producto</th>
+        <th>Descripción <span title="Texto que describe el producto">ℹ️</span></th>
+        <th>Fecha de liberación <span title="Fecha oficial de salida">ℹ️</span></th>
+        <th>Fecha de reestructuración <span title="Fecha futura de revisión">ℹ️</span></th>
+        <th>Acción<span title="Acción">ℹ️</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of paginatedProducts">
+        <td><img [src]="p.logo" alt="Logo" class="logo-img" /></td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.description }}</td>
+        <td>{{ p.date_release | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ p.date_revision | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <div class="dropdown">
+            <button (click)="toggleMenu(p.id)">⋮</button>
+            <div class="dropdown-content" *ngIf="openMenuId === p.id">
+              <a (click)="editProduct(p.id)">Editar</a>
+              <a (click)="openDeleteModal(p)">Eliminar</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>{{ paginatedProducts.length }} Resultado(s)</p>
+  <div class="header-bar">
+  <button class="add-btn" routerLink="/agregar">Agregar producto</button>
+</div>
+
+
+<div class="pagination-controls">
+  <label for="pageSize">Mostrar:</label>
+  <select id="pageSize" [(ngModel)]="pageSize" (change)="updatePagination()">
+    <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+  </select>
+</div>
+</div>
+
+
+<div class="modal-overlay" *ngIf="showDeleteModal">
+  <div class="modal-box">
+    <p>¿Estás seguro de eliminar el producto <strong>{{ productToDelete?.name }}</strong>?</p>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
+      <button class="confirm-btn" (click)="confirmDelete()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
