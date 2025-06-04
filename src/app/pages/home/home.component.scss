@@ -186,4 +186,43 @@ body, .container, table, input, h2, p, td, th ,label, .error{
   cursor: pointer;
 }
 
+.bank-logo {
+  width: 50px;
+  height: 50px;
+  background-color: #002244; /* Azul oscuro */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    width: 40px;
+    height: 25px;
+    background-color: navy;
+    position: relative;
+    border-radius: 4px; 
+     display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: 5px; /* separación desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* ancho de la línea blanca */
+    height: 2px;
+    background-color: white;
+}
+
+
+
 

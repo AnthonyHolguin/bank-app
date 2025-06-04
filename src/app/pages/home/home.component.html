@@ -1,6 +1,8 @@
 <div class="container">
   <div class="header">
-    <img src="assets/logo-bank.svg" alt="logo" class="logo">
+    <div class="bank-logo">
+      B
+    </div>
     <h2>BANCO</h2>
   </div>
 
@@ -20,7 +22,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let p of paginatedProducts">
-        <td><img [src]="p.logo" alt="Logo" class="logo-img" /></td>
+         <td><div class="logo"></div></td>
         <td>{{ p.name }}</td>
         <td>{{ p.description }}</td>
         <td>{{ p.date_release | date: 'dd/MM/yyyy' }}</td>
@@ -40,16 +42,16 @@
 
   <p>{{ paginatedProducts.length }} Resultado(s)</p>
   <div class="header-bar">
-  <button class="add-btn" routerLink="/agregar">Agregar producto</button>
-</div>
+    <button class="add-btn" routerLink="/agregar">Agregar producto</button>
+  </div>
 
 
-<div class="pagination-controls">
-  <label for="pageSize">Mostrar:</label>
-  <select id="pageSize" [(ngModel)]="pageSize" (change)="updatePagination()">
-    <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-  </select>
-</div>
+  <div class="pagination-controls">
+    <label for="pageSize">Mostrar:</label>
+    <select id="pageSize" [(ngModel)]="pageSize" (change)="updatePagination()">
+      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>
 </div>
 
 
@@ -63,4 +65,3 @@
     </div>
   </div>
 </div>
-
