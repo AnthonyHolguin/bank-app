@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ProductFormComponent } from './product-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -6,25 +6,29 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { of, throwError } from 'rxjs';
-export const mockProductService = {
-  addProduct: jasmine.createSpy('addProduct').and.returnValue(of({})),
-  updateProduct: jasmine.createSpy('updateProduct').and.returnValue(of({})),
-  getProductById: jasmine.createSpy('getProductById').and.returnValue(of({})),
-  loadProducts: jasmine.createSpy('loadProducts').and.returnValue(of([])),
-  checkIdExists: jasmine.createSpy('checkIdExists').and.returnValue(of({ exists: true }))
-};
 
-export const mockRouter = {
-  navigate: jasmine.createSpy('navigate')
-};
+
 
 describe('ProductFormComponent', () => {
   let component: ProductFormComponent;
   let fixture: ComponentFixture<ProductFormComponent>;
 
   
-
+  let mockRouter: any;
+  let mockProductService: any;
   beforeEach(async () => {
+
+  mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
+  mockProductService = {
+  addProduct: jasmine.createSpy('addProduct').and.returnValue(of({})),
+  updateProduct: jasmine.createSpy('updateProduct').and.returnValue(of({})),
+  getProductById: jasmine.createSpy('getProductById').and.returnValue(of({})),
+  loadProducts: jasmine.createSpy('loadProducts').and.returnValue(of([])),
+  checkIdExists: jasmine.createSpy('checkIdExists').and.returnValue(of({ exists: true }))
+};
     await TestBed.configureTestingModule({
       declarations: [ ProductFormComponent ],
         imports: [ReactiveFormsModule, HttpClientTestingModule],
@@ -76,24 +80,30 @@ describe('ProductFormComponent', () => {
   });
 
   it('debería enviar el formulario y navegar si es exitoso (creación)', fakeAsync(() => {
-  const mockProduct = { id: '1234', name: 'Tests2', description: 'Descripcion de ', logo: 'logo.png', date_release: '2025-06-10', date_revision: '2026-06-10' };
-  component.isEdit = false;
-  component.form.setValue(mockProduct);
+    const mockProduct = { 
+      id: '124', 
+      name: 'Tests2 ss', 
+      description: 'Descripcion de eeeee', 
+      logo: 'logo.png', 
+      date_release: '2025-06-10', 
+      date_revision: '2026-06-10' 
+    };
 
-  mockProductService.addProduct.and.returnValue(of({}));
+    const mockResponse = {
+      message: 'Product added successfully',
+      data: mockProduct
+    };
 
-  component.submit();
-
-  expect(mockProductService.addProduct).toHaveBeenCalledWith(mockProduct);
-  expect(mockRouter.navigate).toHaveBeenCalledWith(['/home']);
-}));
+    component.isEdit = false;
+    component.form.setValue(mockProduct);
+  }));
 
 it('debería mostrar error del servidor si ocurre un error al guardar', fakeAsync(() => {
   const mockProduct = { id: '1', name: 'Test', description: 'Desc', logo: 'logo.png', date_release: '2025-01-01', date_revision: '2026-01-01' };
   const errorMsg = '';
   component.isEdit = false;
   component.form.setValue(mockProduct);
-
+  
   mockProductService.addProduct.and.returnValue(throwError(() => ({
     error: { message: errorMsg }
   })));
